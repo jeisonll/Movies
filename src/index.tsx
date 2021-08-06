@@ -4,11 +4,12 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import HeaderHome from "./Components/HeaderHome";
+import Routes from "./Components/Routes";
 
 ReactDOM.render(
   <React.Fragment>
-    <HeaderHome></HeaderHome>
-    <App />
+    <HeaderHome/>
+    <Routes/>
   </React.Fragment>,
   document.getElementById('root')
 );

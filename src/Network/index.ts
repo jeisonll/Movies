@@ -8,6 +8,4 @@ const http = axios.create({
 http.interceptors.response.use((res => {
   return res.data;
 }))
-export const get = (url: string, params?: any) => (http.get(url, {params}))
-
-
+export const get = (url: string, params?: any) => (http.get(url, {params}));

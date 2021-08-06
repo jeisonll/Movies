@@ -1,7 +1,10 @@
-import React, {Fragment, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import {getMoviesService} from "./Services/MovieServices";
-import {Spinner} from "reactstrap"
+import DetailMovie,{listFavorite}   from "./Components/DetailMovie"
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faHeart, faSpinner} from '@fortawesome/free-solid-svg-icons'
+import {useHistory} from "react-router-dom";
 
 
 function App() {
@@ -37,13 +40,15 @@ function App() {
     }
     localStorage.setItem("movieFavorite", JSON.stringify(movieLocal));
   }
-  console.log(movieLocal)
+
 
   const loadingMovie = () => {
     getMoviesService().then((res: any) => {
       if (res.success) {
         setMovies(res.items);
         setLoading(false);
+
+
         // setUpdateMovie(false);
       }
     })
@@ -51,10 +56,19 @@ function App() {
   }
 
 
-  return (
+  let history = useHistory();
+  function handleClick(id:string) {
 
+
+    history.push("/details/"+id);
+  }
+
+
+  return (
+//  <FontAwesomeIcon icon={faSpinner} className=" light"/>
     <>
-      {loading ? <Spinner color="light" /> :
+
+      {loading ? <div className="text-center"><FontAwesomeIcon  spin className="text-white"  size="4x" icon={faSpinner}/></div>:
         <div className="container">
 
           <div className="row">
@@ -62,33 +76,32 @@ function App() {
 
               <div className="row">
                 {movies.map((movie: any, i) => (
-                  <div className="card bg-transparent border-0 mt-4" style={{width: "18rem"}}>
+                  <div key={i} className="card bg-transparent border-0 mt-4" style={{width: "18rem"}}>
                     <img className="card-img-top border-1 rounded position-relative" src={movie.image}
-                         alt="Card image cap"/>
-                    <h5 className="rounded-circle border-4 bg-primary text-white position-absolute p-2" style={{bottom:"100px" ,right:"20px"}}>{movie.year}</h5>
+                         alt="Card image cap" onClick={()=>handleClick(movie.id)}/>
+                    <h5 className="rounded-circle border-4 bg-primary text-white position-absolute p-2"
+                        style={{bottom: "100px", right: "20px"}}>{movie.year}</h5>
+
+
                     <div className="card-body">
-                      <p className="card-text text-white text-center">{movie.name}</p>
-                      <button className="btn btn-primary btn-sm" onClick={() => {
-                        addMovieLocal(movie)
-                      }}>favorito
-                        {movieLocal.find((m: any) => m.id === movie.id) ? "+" : "-"}
-                      </button>
+                      <p className="card-text text-white text-center">{movie.name}
+                        <button className="btn btn-link btn-sm position-absolute" style={{right: "20px"}}
+                                onClick={() => {
+                                  addMovieLocal(movie)
+                                }}>
+                          {!movieLocal.find((m: any) => m.id === movie.id) ?
+                            <FontAwesomeIcon className="text-white " icon={faHeart}
+                            /> : <FontAwesomeIcon className="text-danger  " icon={faHeart}
+                            />}
+                        </button>
+                      </p>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
             <div className="col-2">
-              <ul className="list-group list-group-flush  " style={{width: "8rem"}}>
-                <li className="list-group-item text-white bg-transparent"><h6>Lista de Favoritos</h6></li>
-                {movieLocal.map((movie: any, i) => (
-                  <li className="list-group-item text-white bg-transparent">{movie.name}
-                    <img className="card-img-top border-1 rounded position-relative" src={movie.image}
-                         alt="Card image cap"/>
-                  </li>
-
-                ))}
-              </ul>
+              {listFavorite(movieLocal)}
             </div>
           </div>
 
