@@ -9,3 +9,4 @@ http.interceptors.response.use((res => {
   return res.data;
 }))
 export const get = (url: string, params?: any) => (http.get(url, {params}));
+export const post = (url: string, params?: any) => (http.post(url, {params}));

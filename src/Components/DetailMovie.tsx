@@ -3,12 +3,14 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faStar} from '@fortawesome/free-solid-svg-icons'
 import {getByIdService, getMoviesService} from "../Services/MovieServices"
 import {useParams} from "react-router-dom";
+
 //
 //
 //
 // import  from "../App"
 export const listFavorite = (movieLocal: any) => (
-  <ul className="list-group list-group-flush  " style={{width: "8rem"}}>
+  <div className="border-2 rounded-2 bg-dark m-0 justify-content-center d-flex">
+  <ul className="list-group list-group-flush text-center " style={{width: "8rem"}}>
     <li className="list-group-item text-white bg-transparent"><h6>Lista de Favoritos</h6></li>
     {movieLocal.map((movie: any, i: any) => (
       <li key={i} className="list-group-item text-white bg-transparent">{movie.name}
@@ -18,13 +20,14 @@ export const listFavorite = (movieLocal: any) => (
 
     ))}
   </ul>
+  </div>
 )
 
 
 function DetailMovie() {
 
   const [movie, setMovie] = useState([])
-  const [movieLocal, setMovieLocal] = useState({})
+  const [movieLocal, setMovieLocal] = useState<any>([])
   const [loading, setLoading] = useState(false);
   let {id} = useParams<any>();
   const [movieSelect, setMovieSelect] = useState({
@@ -37,11 +40,14 @@ function DetailMovie() {
   })
 
 
+
   useEffect(() => {
-  
     setLoading(true)
     ListMovieDetails(id);
     setMovieLocal(id);
+    const local = localStorage.getItem("movieFavorite")
+    const movie = local ? JSON.parse(local) : [];
+    setMovieLocal(movie);
   }, [id])
 
   const ListMovieDetails = (movieId:string) => {
@@ -69,7 +75,7 @@ function DetailMovie() {
 
   return (
     <>
-      <h6>yh</h6>
+
       <div className="container">
         <div className="row">
           <div className="col-10">
@@ -87,7 +93,10 @@ function DetailMovie() {
               </div>
 
           </div>
-          <div className="col-2">
+          <div className="col-2 mt-2">
+
+              {listFavorite(movieLocal)}
+
 
           </div>
         </div>

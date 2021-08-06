@@ -1,4 +1,4 @@
-import {get} from "../Network";
+import {get,post} from "../Network";
 
 
 export function getMoviesService() {
@@ -6,5 +6,8 @@ export function getMoviesService() {
 }
 export function getByIdService(movie:string){
   return get("/movie/"+movie)
+}
+export function posMoviesService(movie:any) {
+  return post("/movies",movie);
 }
 

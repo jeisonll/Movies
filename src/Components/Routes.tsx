@@ -8,6 +8,7 @@ import {
 import App from "../App"
 import DetailMovie from "./DetailMovie";
 import  NotFound from "./NotFound"
+import AdminMovie from "../adminMovie";
 
 const Routes=()=>(
 
@@ -15,6 +16,7 @@ const Routes=()=>(
     <Switch>
       <Route exact path="/movies" component={App}/>
       <Route exact path="/details/:id" component={DetailMovie}/>
+      <Route exact path="/admin" component={AdminMovie}/>
       <Route component={NotFound}/>
     </Switch>
   </BrowserRouter>

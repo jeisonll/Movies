@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import './App.css';
 import {getMoviesService} from "./Services/MovieServices";
-import DetailMovie,{listFavorite}   from "./Components/DetailMovie"
+import {listFavorite}   from "./Components/DetailMovie"
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faHeart, faSpinner} from '@fortawesome/free-solid-svg-icons'
 import {useHistory} from "react-router-dom";
@@ -28,18 +28,7 @@ function App() {
     loadingMovie();
   }, []);
 
-  const addMovieLocal = (movieData: any) => {
-    const movieFavoriteExist = movieLocal.find((movie: any) => movie.id === movieData.id);
-    if (movieFavoriteExist) {
-      const newMovie: any[] = Object.assign([], movieLocal);
-      setMovieLocal(newMovie.filter((movie: any) => movieData.id !== movie.id))
-    } else {
-      const newMovie: any[] = Object.assign([], movieLocal);
-      newMovie.push(movieData);
-      setMovieLocal(newMovie);
-    }
-    localStorage.setItem("movieFavorite", JSON.stringify(movieLocal));
-  }
+
 
 
   const loadingMovie = () => {
@@ -53,6 +42,18 @@ function App() {
       }
     })
 
+  }
+  const addMovieLocal = (movieData: any) => {
+    const movieFavoriteExist = movieLocal.find((movie: any) => movie.id === movieData.id);
+    if (movieFavoriteExist) {
+      const newMovie: any[] = Object.assign([], movieLocal);
+      setMovieLocal(newMovie.filter((movie: any) => movieData.id !== movie.id))
+    } else {
+      const newMovie: any[] = Object.assign([], movieLocal);
+      newMovie.push(movieData);
+      setMovieLocal(newMovie);
+    }
+    localStorage.setItem("movieFavorite", JSON.stringify(movieLocal));
   }
 
 
@@ -87,7 +88,7 @@ function App() {
                       <p className="card-text text-white text-center">{movie.name}
                         <button className="btn btn-link btn-sm position-absolute" style={{right: "20px"}}
                                 onClick={() => {
-                                  addMovieLocal(movie)
+                                    addMovieLocal(movie)
                                 }}>
                           {!movieLocal.find((m: any) => m.id === movie.id) ?
                             <FontAwesomeIcon className="text-white " icon={faHeart}
@@ -101,7 +102,7 @@ function App() {
               </div>
             </div>
             <div className="col-2">
-              {listFavorite(movieLocal)}
+                {listFavorite(movieLocal)}
             </div>
           </div>
 
