@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import './App.css';
 import {getMoviesService} from "./Services/MovieServices";
-import {listFavorite}   from "./Components/DetailMovie"
+import {listFavorite} from "./Components/DetailMovie"
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faHeart, faSpinner} from '@fortawesome/free-solid-svg-icons'
 import {useHistory} from "react-router-dom";
@@ -11,13 +11,13 @@ function App() {
   const [movies, setMovies] = useState([]);
   const [movieLocal, setMovieLocal] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
-  const [movieSelect, setMovieSelect] = useState({
-    name: '',
-    description: '',
-    year: '',
-    stars: '',
-    director: ''
-  })
+  // const [movieSelect, setMovieSelect] = useState({
+  //   name: '',
+  //   description: '',
+  //   year: '',
+  //   stars: '',
+  //   director: ''
+  // })
 
 
   useEffect(() => {
@@ -27,8 +27,6 @@ function App() {
     setMovieLocal(movie);
     loadingMovie();
   }, []);
-
-
 
 
   const loadingMovie = () => {
@@ -58,10 +56,11 @@ function App() {
 
 
   let history = useHistory();
-  function handleClick(id:string) {
+
+  function handleClick(id: string) {
 
 
-    history.push("/details/"+id);
+    history.push("/details/" + id);
   }
 
 
@@ -69,7 +68,8 @@ function App() {
 //  <FontAwesomeIcon icon={faSpinner} className=" light"/>
     <>
 
-      {loading ? <div className="text-center"><FontAwesomeIcon  spin className="text-white"  size="4x" icon={faSpinner}/></div>:
+      {loading ?
+        <div className="text-center"><FontAwesomeIcon spin className="text-white" size="4x" icon={faSpinner}/></div> :
         <div className="container">
 
           <div className="row">
@@ -79,7 +79,7 @@ function App() {
                 {movies.map((movie: any, i) => (
                   <div key={i} className="card bg-transparent border-0 mt-4" style={{width: "18rem"}}>
                     <img className="card-img-top border-1 rounded position-relative" src={movie.image}
-                         alt="Card image cap" onClick={()=>handleClick(movie.id)}/>
+                         onClick={() => handleClick(movie.id)}/>
                     <h5 className="rounded-circle border-4 bg-primary text-white position-absolute p-2"
                         style={{bottom: "100px", right: "20px"}}>{movie.year}</h5>
 
@@ -88,7 +88,7 @@ function App() {
                       <p className="card-text text-white text-center">{movie.name}
                         <button className="btn btn-link btn-sm position-absolute" style={{right: "20px"}}
                                 onClick={() => {
-                                    addMovieLocal(movie)
+                                  addMovieLocal(movie)
                                 }}>
                           {!movieLocal.find((m: any) => m.id === movie.id) ?
                             <FontAwesomeIcon className="text-white " icon={faHeart}
@@ -102,7 +102,7 @@ function App() {
               </div>
             </div>
             <div className="col-2">
-                {listFavorite(movieLocal)}
+              {listFavorite(movieLocal)}
             </div>
           </div>
 
