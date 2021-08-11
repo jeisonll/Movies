@@ -9,4 +9,8 @@ http.interceptors.response.use((res => {
   return res.data;
 }))
 export const get = (url: string, params?: any) => (http.get(url, {params}));
-export const post = (url: string, params?: any) => (http.post(url, {params}));
+
+
+export const post = (url: string, params?: any) => (http.post(url, params));
+export const put = (url: string, params?: any) => (http.put(url, params));
+export const deleteRequest = (url: string, params?: any) => (http.delete(url, params));
